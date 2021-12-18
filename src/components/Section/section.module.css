@@ -1,0 +1,9 @@
+.section {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  /* background-color: yellow; */
+  /* border: 1px solid red; */
+  justify-content: center;
+  align-items: center;
+}
