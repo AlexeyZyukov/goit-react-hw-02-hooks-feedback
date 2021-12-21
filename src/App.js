@@ -1,43 +1,41 @@
 import './App.css';
 
-import { useState, Fragment } from 'react';
+import { useState, useEffect, Fragment } from 'react';
 import Section from './components/Section/Section';
 
 import styles from './components/feedback.module.css';
 import FeedbackOptions from './components/FeedbackOptions/FeedbackOptions';
 import Statistics from './components/Statistics/Statistics';
 
-const initState = {
-  good: 0,
-  neutral: 0,
-  bad: 0,
-};
-
 export default function App() {
-  const [state, setState] = useState(initState);
+  const [good, setGood] = useState(0);
+  const [neutral, setNeutral] = useState(0);
+  const [bad, setBad] = useState(0);
+
+  const objectState = { good, neutral, bad };
 
   const onBtnClick = item => {
-    setState(prevState => {
-      console.log(state);
-      return {
-        [item]: prevState[item] + 1,
-      };
-    });
-  };
+    switch (item) {
+      case 'good':
+        setGood(prevState => prevState + 1);
+        break;
+      case 'neutral':
+        setNeutral(neutral => neutral + 1);
+        break;
+      case 'bad':
+        setBad(bad => bad + 1);
+        break;
 
-  const arrayOfStateEntry = () => {
-    console.log(Object.entries(state));
-    return Object.entries(state);
+      default:
+        return;
+    }
   };
 
   const countTotalFeedback = () => {
-    console.log(state);
-    return Object.values(state).reduce((acc, value) => acc + value, 0);
+    return Object.values(objectState).reduce((acc, value) => acc + value, 0);
   };
 
   const countPositiveFeedbackPercentage = () => {
-    const { good } = state;
-    console.log(good);
     const total = countTotalFeedback();
     return total ? Math.round((good / total) * 100) : 0;
   };
@@ -47,7 +45,7 @@ export default function App() {
       <div className={styles.wrapper}>
         <Section title="Please leave feedback">
           <FeedbackOptions
-            arrayKeysFromState={Object.keys(state)}
+            arrayKeysFromState={Object.keys(objectState)}
             onClickFn={onBtnClick}
           />
         </Section>
@@ -56,7 +54,7 @@ export default function App() {
           <Statistics
             totalFeedback={countTotalFeedback()}
             positiveFeedback={countPositiveFeedbackPercentage()}
-            arrayFromStateEntry={arrayOfStateEntry()}
+            arrayFromStateEntry={Object.entries(objectState)}
             message="There is no feedback"
           />
         </Section>
