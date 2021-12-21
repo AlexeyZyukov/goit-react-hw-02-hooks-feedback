@@ -1,6 +1,6 @@
 import './App.css';
 
-import { useState, useEffect, Fragment } from 'react';
+import { useState, Fragment } from 'react';
 import Section from './components/Section/Section';
 
 import styles from './components/feedback.module.css';
